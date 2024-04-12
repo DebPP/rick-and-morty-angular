@@ -36,6 +36,7 @@ export class StartComponent implements OnInit {
 			.subscribe(res => {
 				this.onMarkfavs(res.results);
 				this.characters = this.characters.concat(res.results);
+				this.showPagination = true
 			})
 	}
 
