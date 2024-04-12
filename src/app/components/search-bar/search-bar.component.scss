@@ -43,46 +43,7 @@ h1 {
     padding: 0 5px;
 }
 
-.list-results {
-    width: 328px;
-    max-height: 246px;
-    min-height: fit-content;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    background-color: var(--color-core-foreground);
-    padding: 15px;
-    border-radius: 16px;
-    position: absolute;
-    z-index: 1;
 
-    p {
-        margin-bottom: 0;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    p:hover {
-        background-color: var(--color-neutral-border-high);
-        cursor: pointer;
-    }
-}
-
-.list-results::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: var(--color-core-foreground);
-}
-
-.list-results::-webkit-scrollbar {
-    width: 6px;
-    background-color: green;
-}
-
-.list-results::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: var(--color-neutral-border-high);
-}
 
 .btn-clear-input {
     position: absolute;
