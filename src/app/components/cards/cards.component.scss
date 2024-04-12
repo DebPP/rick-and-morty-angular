@@ -1,0 +1,50 @@
+.character {
+    margin: 8px;
+    border: 1px solid var(--color-core-border);
+    background-color: var(--color-core-foreground);
+    width: 224px;
+    height: fit-content;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    img {
+        border-top-right-radius: 8px !important;
+        border-top-left-radius: 8px !important;
+    }
+
+    h4,
+    p {
+        padding: 0 10px;
+    }
+
+    p{
+        margin-bottom: 0;
+    }
+}
+
+.character:hover {
+    transform: scale(1.1);
+
+}
+
+.favorite {
+    position: absolute;
+
+    img {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.characters-container {
+    justify-content: start;
+    flex-wrap: wrap;
+    display: flex;
+    width: 720px;
+}
+
+.btn-active {
+    background-color: var(--color-neutral-surface);
+    border-bottom-right-radius: 100%;
+}

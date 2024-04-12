@@ -1,0 +1,30 @@
+<div class="header-content d-flex justify-content-between">
+    <img src="./../../../assets/img/logo.png" alt="logo-ricknmorty">
+
+    <div class="btn-group" role="group" aria-label="Basic outlined example">
+        @if (titleRoute === 'Início') {
+        <button type="button" class="btn btn-secondary btn-active" (click)="navigate('/search')">
+            <img class="img-button" src="./../../../assets/img/home.png">
+            Início
+        </button>
+        } @else {
+        <button type="button" class="btn btn-secondary" (click)="navigate('/search')">
+            <img class="img-button" src="./../../../assets/img/home-gray.png">
+            Início
+        </button>
+        }
+        @if (titleRoute === 'Favoritos') {
+        <button type="button" class="btn btn-secondary btn-active" (click)="navigate('/favorites')">
+            <img class="img-button" src="./../../../assets/img/black-heart.png">
+            Favoritos
+            <div class="counter">{{getFavsLength()}}</div>
+        </button>
+        } @else {
+        <button type="button" class="btn btn-secondary" (click)="navigate('/favorites')">
+            <img class="img-button" src="./../../../assets/img/like.png">
+            Favoritos
+            <div class="counter">{{getFavsLength()}}</div>
+        </button>
+        }
+    </div>
+</div>

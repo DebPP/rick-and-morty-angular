@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+    <div class="container d-flex justify-content-between">
+        <h1 class="creepster-regular">{{title}}</h1>
+        @if (showSearch) {
+        <div class="input-content">
+            <div class="form-group">
+                <input type="text" id="name" class="form-control" formControlName="itemPesquisa">
+                <label for="name" class="form-label">Nome</label>
+                @if (showClearInputBtn) {
+                <button class="btn-clear-input" (click)="onClearInput()">
+                    <img src="../../../assets/img/close.png">
+                </button>
+                }
+            </div>
+            @if (showSearchPopUp) {
+            <span class="list-results">
+                @for (search of searchResult; track $index) {
+                <p (click)="onSelectItem(search, $event)">{{search.name}}</p>
+                }
+            </span>
+            }
+        </div>
+        }
+    </div>
+</form>

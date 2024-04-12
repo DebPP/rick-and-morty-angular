@@ -1,0 +1,33 @@
+.header-content {
+    width: 100%;
+    height: 12vh;
+    background-color: var(--color-core-foreground);
+    padding: 0 14px;
+    align-items: center;
+
+    img {
+        width: 114px;
+        height: 64px;
+    }
+
+    .img-button {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+    }
+}
+
+.counter {
+    width: 25px;
+    height: 25px;
+    background-color: var(--color-neutral-surface);
+    border-radius: 50%;
+    border: 1px solid var(--color-core-border);
+    color: var(--color-core-foreground);
+    margin-left: 6px;
+}
+
+.btn-active {
+    background-color: var(--color-neutral-surface) !important;
+    color: var(--color-core-foreground) !important;
+}

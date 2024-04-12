@@ -1,0 +1,14 @@
+<div class="container pb-3">
+    <app-search-bar [showSearch]="false"></app-search-bar>
+
+    <div class="main-content d-flex ">
+        @if (favsId.length === 0) {
+        <app-alerts [title]="'Parece que você ainda não tem favoritos'" 
+        [message]="'Volte à página inicial e escolha os melhores para você.'"></app-alerts>
+
+        } @else {
+
+        <app-cards [data]="favorites" (changeFav)="getFavs()"></app-cards>
+        }
+    </div>
+</div>
