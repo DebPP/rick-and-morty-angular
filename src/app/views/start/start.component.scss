@@ -16,6 +16,7 @@
 .loader {
     width: 50px;
     aspect-ratio: 1;
+    margin: 0 auto;
     --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
     background: 
       var(--_c) top,
