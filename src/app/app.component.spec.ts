@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'ntt-data-project' title`, () => {
+  it(`should have the 'rick-and-morty-angular' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ntt-data-project');
+    expect(app.title).toEqual('rick-and-morty-angular');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ntt-data-project');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, rick-and-morty-angular');
   });
 });

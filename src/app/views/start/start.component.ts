@@ -7,6 +7,7 @@ import { dataModel } from '../../models/data.model';
 import { characterModel } from '../../models/character.model';
 import { CardsComponent } from '../../components/cards/cards.component';
 import { CookieService } from 'ngx-cookie-service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-start',
@@ -25,6 +26,8 @@ export class StartComponent implements OnInit {
 	page = 1;
 	showPagination = true;
 
+	private unsubscribe = new Subject<void>;
+
 	constructor(private service: CharacterService) { }
 
 	ngOnInit(): void {
@@ -32,23 +35,28 @@ export class StartComponent implements OnInit {
 	}
 
 	populateCharacter(page: number): void {
-		this.service.getAll(page)
-			.subscribe(res => {
-				this.onMarkfavs(res.results);
-				this.characters = this.characters.concat(res.results);
+		this.service.getAll(page).pipe(takeUntil(this.unsubscribe))
+			.subscribe(response => {
+				this.onMarkfavs(response.results);
+				this.characters = this.characters.concat(response.results);
 				this.showPagination = true
-			})
+			});
 	}
 
-	onMarkfavs(res: characterModel[]): void {
+	ngOnDestroy() {
+		this.unsubscribe.next();
+		this.unsubscribe.complete();
+	}
+
+	onMarkfavs(characters: characterModel[]): void {
 		const favsCookies = this.cookieService.get('favs');
 		if (!!favsCookies) {
-			const favs = JSON.parse(favsCookies);
+			const favoritesId = JSON.parse(favsCookies);
 
-			favs.forEach((fv: number) => {
-				res.map(rs => {
-					if (rs.id == fv) {
-						rs.isFavorite = true;
+			favoritesId.forEach((favId: number) => {
+				characters.map(char => {
+					if (char.id == favId) {
+						char.isFavorite = true;
 					}
 				});
 			});

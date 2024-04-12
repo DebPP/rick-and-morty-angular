@@ -11,7 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class CardsComponent implements OnInit {
 	@Input() data: Array<characterModel>;
-	@Output() changeFav: EventEmitter<any> = new EventEmitter();
+	@Output() changeFav: EventEmitter<void> = new EventEmitter();
+
 	cookieService = inject(CookieService);
 	favorites: Array<number> = [];
 
@@ -39,24 +40,21 @@ export class CardsComponent implements OnInit {
 
 			if(!!this.data) {
 				this.favorites.forEach(fvs => {
-					this.data.map(dt => {
-						if (dt.id === fvs) {
-		
-							dt.isFavorite = true
-		
+					this.data.map(character => {
+						if (character.id === fvs) {
+							character.isFavorite = true
 						}
 					})
 				})
-
 			}
 		}
 	}
 
-	onRemoveFavorite(char: characterModel): void {
+	onRemoveFavorite(character: characterModel): void {
 		this.cookieService.delete('favs');
-		let i = this.favorites.indexOf(char.id)
+		let i = this.favorites.indexOf(character.id)
 		this.favorites.splice(i, 1);
-		char.isFavorite = false;
+		character.isFavorite = false;
 
 		const favs_str = JSON.stringify(this.favorites);
 		this.cookieService.set('favs', favs_str);

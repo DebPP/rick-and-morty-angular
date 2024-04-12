@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output, inject, } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CharacterService } from '../../service/character.service';
 import { characterModel } from '../../models/character.model';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { Subject, debounceTime, filter, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-search-bar',
@@ -17,24 +17,26 @@ export class SearchBarComponent {
 	@Output() resultSeach: EventEmitter<Array<characterModel>> = new EventEmitter();
 
 	form: FormGroup;
-	searchResult: Array<characterModel>
-	showSearchPopUp = false;
+	searchResult: Array<characterModel>;
 	title: string;
-	target = false;
 	showClearInputBtn = false;
+
+	private searchSubject = new Subject<string>();
+	private readonly debounceTimeMs = 300;
+	private unsubscribe = new Subject<void>;
 
 	private formBuilder = inject(FormBuilder);
 	private service = inject(CharacterService);
-	router = inject(Router);
-	activatedRoute = inject(ActivatedRoute);
+	private router = inject(Router);
+	private activatedRoute = inject(ActivatedRoute);
 
 	constructor() {
 		this.router.events.pipe(
 			filter(event => event instanceof NavigationEnd),
 		)
 			.subscribe(() => {
-				var rt = this.getChild(this.activatedRoute);
-				rt.data.subscribe((data: any) => {
+				let child = this.getChild(this.activatedRoute);
+				child.data.subscribe((data: any) => {
 					this.title = data.title;
 				})
 			})
@@ -43,27 +45,24 @@ export class SearchBarComponent {
 			itemPesquisa: ['']
 		});
 
-		if (this.form) {
-			if (this.form.get('itemPesquisa')) {
-
-				const variable = this.form.get('itemPesquisa')
-
-				variable!.valueChanges
-					.subscribe(res => {
-						this.showClearInputBtn = true;
-						if (res.length > 2 && !this.target) {
-							this.onSearch(res);
-						} else if (res.length === 0) {
-							this.showSearchPopUp = false;
-							this.resultSeach.emit(this.searchResult);
-						}
-					})
-			}
-		}
-
+		this.form.get('itemPesquisa')!.valueChanges
+		.pipe(debounceTime(this.debounceTimeMs), takeUntil(this.unsubscribe))
+			.subscribe(searchValue => {
+				this.showClearInputBtn = true;
+				this.performSearch(searchValue);
+				if (searchValue.length === 0) {
+					this.resultSeach.emit(this.searchResult);
+				}
+			})
 	}
 
-	getChild(activatedRoute: ActivatedRoute): any {
+	ngOnDestroy() {
+		this.unsubscribe.next();
+		this.unsubscribe.complete();
+		this.searchSubject.complete();
+	}
+
+	getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
 		if (activatedRoute.firstChild) {
 			return this.getChild(activatedRoute.firstChild);
 		} else {
@@ -72,31 +71,21 @@ export class SearchBarComponent {
 
 	}
 
-	onSearch(name: string): void {
-		this.service.filter(name).subscribe(
-			res => {
-				this.searchResult = res.results;
-				this.showSearchPopUp = true;
-			}
-		)
+	performSearch(name: string): void {
+		this.service.filter(name)
+			.pipe(debounceTime(this.debounceTimeMs))
+			.subscribe(response => {
+				this.searchResult = response.results;
+				this.resultSeach.emit(response.results);
+			})
 	}
 
 	onClearInput(): void {
 		this.form.get('itemPesquisa')?.setValue("");
 		this.showClearInputBtn = false;
-		this.target = false;
-	}
-
-	onSelectItem(character: characterModel, event: Event) {
-		this.showSearchPopUp = false;
-		this.target = true;
-		this.form.get('itemPesquisa')?.setValue(character.name);
-		this.resultSeach.emit(this.searchResult);
-		this.searchResult = [];
 	}
 
 	navigate(route: string): void {
 		this.router.navigate([route]);
 	}
-
 }

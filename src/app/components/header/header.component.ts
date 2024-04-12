@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 	styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
 	@Input() titleRoute: string;
+	
 	cookieService = inject(CookieService);
 	activatedRoute = inject(ActivatedRoute);
 	router = inject(Router);

@@ -5,6 +5,7 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 import { CookieService } from 'ngx-cookie-service';
 import { characterModel } from '../../models/character.model';
 import { CharacterService } from '../../service/character.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-favorites',
@@ -19,10 +20,17 @@ export class FavoritesComponent implements OnInit {
 	favsId: Array<number>;
 	favorites: characterModel[];
 
-	constructor(private characterService: CharacterService) {
-	}
+	private unsubscribe = new Subject<void>;
+
+	constructor(private characterService: CharacterService) { }
+
 	ngOnInit(): void {
 		this.getFavs();
+	}
+
+	ngOnDestroy() {
+		this.unsubscribe.next();
+		this.unsubscribe.complete();
 	}
 
 	getFavs(): void {
@@ -31,17 +39,17 @@ export class FavoritesComponent implements OnInit {
 		if (!!favsCookies) {
 			this.favsId = JSON.parse(favsCookies);
 			if (this.favsId.length > 0) {
-				this.characterService.get(this.favsId)
-					.subscribe(res => {
-						if (res.length > 1) {
-							res.map((mp: characterModel) => {
+				this.characterService.get(this.favsId).pipe(takeUntil(this.unsubscribe))
+					.subscribe(characters => {
+						if (characters.length > 1) {
+							characters.map((mp: characterModel) => {
 								mp.isFavorite = true;
 							})
-							this.favorites = res;
+							this.favorites = characters;
 						} else {
 							let aux: Array<characterModel> = [];
-							res.isFavorite = true;
-							aux = aux.concat(res);
+							characters.isFavorite = true;
+							aux = aux.concat(characters);
 							this.favorites = aux;
 						}
 					})

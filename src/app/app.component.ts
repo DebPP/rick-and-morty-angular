@@ -19,20 +19,21 @@ export class AppComponent{
     titleRoute: string;
     router = inject(Router);
     activatedRoute = inject(ActivatedRoute);
-    
+    title = 'rick-and-morty-angular';
+
     constructor() {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
         )
             .subscribe(() => {
-                var rt = this.getChild(this.activatedRoute);
-                rt.data.subscribe((data: any) => {
+                let child = this.getChild(this.activatedRoute);
+                child.data.subscribe((data: any) => {
                     this.titleRoute = data.title;
                 })
             })
     }
 
-    getChild(activatedRoute: ActivatedRoute): any {
+    getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
         if (activatedRoute.firstChild) {
             return this.getChild(activatedRoute.firstChild);
         } else {

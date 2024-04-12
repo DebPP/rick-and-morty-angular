@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ntt-data-project": {
+    "rick-and-morty-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ntt-data-project",
+            "outputPath": "dist/rick-and-morty-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ntt-data-project:build:production"
+              "buildTarget": "rick-and-morty-angular:build:production"
             },
             "development": {
-              "buildTarget": "ntt-data-project:build:development"
+              "buildTarget": "rick-and-morty-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ntt-data-project:build"
+            "buildTarget": "rick-and-morty-angular:build"
           }
         },
         "test": {
