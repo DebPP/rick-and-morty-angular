@@ -5,40 +5,41 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { CharacterService } from './service/character.service';
 import { CookieService } from 'ngx-cookie-service';
-import { filter } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [CommonModule, RouterOutlet, HttpClientModule, HeaderComponent],
-    providers:[CharacterService, CookieService],
+    providers: [CharacterService, CookieService],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent{
+export class AppComponent {
     titleRoute: string;
-    router = inject(Router);
-    activatedRoute = inject(ActivatedRoute);
     title = 'rick-and-morty-angular';
+    
+    private router = inject(Router);
+    private unsubscribe = new Subject<void>;
+    private activatedRoute = inject(ActivatedRoute);
 
     constructor() {
+        this.getRoute();
+    }
+
+    getRoute(): void {
         this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-        )
+            filter(event => event instanceof NavigationEnd)
+        ).pipe(takeUntil(this.unsubscribe))
             .subscribe(() => {
-                let child = this.getChild(this.activatedRoute);
-                child.data.subscribe((data: any) => {
-                    this.titleRoute = data.title;
-                })
+                if (this.activatedRoute.snapshot.firstChild) {
+                    this.titleRoute = this.activatedRoute.snapshot.firstChild.data['title'];
+                }
             })
     }
 
-    getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
-        if (activatedRoute.firstChild) {
-            return this.getChild(activatedRoute.firstChild);
-        } else {
-            return activatedRoute;
-        }
-
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 }

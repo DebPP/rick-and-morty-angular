@@ -1,18 +1,21 @@
 <div class="container pb-3">
     <app-search-bar (resultSeach)="onChangeSearch($event)"></app-search-bar>
 
-    <div class="main-content d-flex justify-content-center">
+    <div class="main-content d-flex justify-content-center flex-column">
         @if (!!characters && characters.length == 0) {
-        <app-alerts [title]="'Nada foi encontrado'" [message]="'Tente realizar uma nova busca.'"></app-alerts>
-
-        } @else {
-
-        <app-cards [data]="characters"></app-cards>
+            <app-alerts [title]="'Nada foi encontrado'" [message]="'Tente realizar uma nova busca.'"></app-alerts>
+        }
+        @else {
+            @defer () {
+                <app-cards [data]="characters"></app-cards>
+                @if (showPagination) {
+                    <button class="btn btn-secondary btn-pagination" (click)="populateCharacter(this.page + 1)">
+                        <img src="../../../assets/img/down-arrow-gray.png">
+                    </button>
+                }
+            } @placeholder (minimum 2000ms) {
+                <div class="loader"></div>
+            }
         }
     </div>
 </div>
-@if (showPagination) {
-<button class="btn btn-secondary btn-pagination" (click)="populateCharacter(this.page + 1)">
-    <img src="../../../assets/img/down-arrow-gray.png">
-</button>
-}

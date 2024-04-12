@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject, } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CharacterService } from '../../service/character.service';
 import { characterModel } from '../../models/character.model';
@@ -31,27 +31,33 @@ export class SearchBarComponent {
 	private activatedRoute = inject(ActivatedRoute);
 
 	constructor() {
-		this.router.events.pipe(
-			filter(event => event instanceof NavigationEnd),
-		)
-			.subscribe(() => {
-				let child = this.getChild(this.activatedRoute);
-				child.data.subscribe((data: any) => {
-					this.title = data.title;
-				})
-			})
+		this.getRoute();
 
 		this.form = this.formBuilder.group({
 			itemPesquisa: ['']
 		});
+		this.onEnterValueInput();
+	}
 
+	onEnterValueInput(): void {
 		this.form.get('itemPesquisa')!.valueChanges
-		.pipe(debounceTime(this.debounceTimeMs), takeUntil(this.unsubscribe))
+			.pipe(debounceTime(this.debounceTimeMs), takeUntil(this.unsubscribe))
 			.subscribe(searchValue => {
 				this.showClearInputBtn = true;
 				this.performSearch(searchValue);
 				if (searchValue.length === 0) {
 					this.resultSeach.emit(this.searchResult);
+				}
+			})
+	}
+
+	getRoute(): void {
+		this.router.events.pipe(
+			filter(event => event instanceof NavigationEnd)
+		).pipe(takeUntil(this.unsubscribe))
+			.subscribe(() => {
+				if (this.activatedRoute.snapshot.data) {
+					this.title = this.activatedRoute.snapshot.data['title'];
 				}
 			})
 	}

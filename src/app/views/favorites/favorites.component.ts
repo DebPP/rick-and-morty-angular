@@ -5,7 +5,7 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 import { CookieService } from 'ngx-cookie-service';
 import { characterModel } from '../../models/character.model';
 import { CharacterService } from '../../service/character.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-favorites',
@@ -38,19 +38,20 @@ export class FavoritesComponent implements OnInit {
 
 		if (!!favsCookies) {
 			this.favsId = JSON.parse(favsCookies);
-			if (this.favsId.length > 0) {
+			if (this.favsId && this.favsId.length > 0) {
 				this.characterService.get(this.favsId).pipe(takeUntil(this.unsubscribe))
-					.subscribe(characters => {
-						if (characters.length > 1) {
+					.subscribe((characters) => {
+						if (Array.isArray(characters)) {
 							characters.map((mp: characterModel) => {
 								mp.isFavorite = true;
 							})
 							this.favorites = characters;
 						} else {
-							let aux: Array<characterModel> = [];
-							characters.isFavorite = true;
-							aux = aux.concat(characters);
-							this.favorites = aux;
+							let characterAux: Array<characterModel> = [];
+							characterAux.push(characters as characterModel);
+
+							characterAux[0].isFavorite = true;
+							this.favorites = characterAux;
 						}
 					})
 			}

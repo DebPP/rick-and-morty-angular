@@ -19,7 +19,7 @@ export class CharacterService {
 		return this.http.get<dataModel>('https://rickandmortyapi.com/api/character/?name=' + name)
 	}
 
-	get(ids: Array<number>): Observable<any> {
-		return this.http.get<Array<characterModel>>('https://rickandmortyapi.com/api/character/' + ids)
+	get<T>(ids: Array<number>): Observable<T> {
+		return this.http.get<T>('https://rickandmortyapi.com/api/character/' + ids)
 	}
 }

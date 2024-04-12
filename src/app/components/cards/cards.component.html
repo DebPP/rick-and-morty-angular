@@ -1,5 +1,4 @@
-<div class="characters-container d-flex flex-wrap">
-    @defer () {
+<div class="characters-container d-flex flex-wrap justify-content-center">
         @for (char of data; track $index) {
             <div class="character d-flex flex-column">
                 <img [src]="char.image">
@@ -16,7 +15,5 @@
                 <p class="poppins-regular">{{char.species}}</p>
             </div>
         }
-    } @placeholder (minimum 2000ms) {
-        <div class="loader"></div>
-    }
+    
 </div>
