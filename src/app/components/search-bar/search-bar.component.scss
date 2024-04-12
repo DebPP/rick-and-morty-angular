@@ -1,4 +1,4 @@
-h1{
+h1 {
     color: #00B5CC;
     -webkit-text-stroke-color: #B2DF28;
     -webkit-text-stroke-width: 2px;
@@ -6,7 +6,6 @@ h1{
 
 .container {
     padding: 3rem 0;
-    width: 720px;
 }
 
 .form-group {
@@ -30,12 +29,12 @@ h1{
     font-size: 16px;
     border: 1px solid --color-neutral-border-high;
     border-radius: 5px;
-    background-color: transparent; 
+    background-color: transparent;
     color: var(--color-neutral-content);
 }
 
-.form-control:focus + .form-label,
-.form-control:not(:placeholder-shown) + .form-label {
+.form-control:focus+.form-label,
+.form-control:not(:placeholder-shown)+.form-label {
     top: -10px;
     left: 10px;
     font-size: 12px;
@@ -70,25 +69,23 @@ h1{
     }
 }
 
-.list-results::-webkit-scrollbar-track{
-	/*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
-	border-radius:10px;
-	background-color: var(--color-core-foreground);
-    // border
+.list-results::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: var(--color-core-foreground);
 }
 
-.list-results::-webkit-scrollbar{
-	width: 6px;
-	background-color: green;
+.list-results::-webkit-scrollbar {
+    width: 6px;
+    background-color: green;
 }
 
-.list-results::-webkit-scrollbar-thumb{
-	border-radius:10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: var(--color-neutral-border-high);
+.list-results::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: var(--color-neutral-border-high);
 }
 
-.btn-clear-input{
+.btn-clear-input {
     position: absolute;
     top: 50%;
     right: 5px;
@@ -98,12 +95,18 @@ h1{
     cursor: pointer;
     color: #888;
 
-    img{
+    img {
         width: 13px;
     }
 }
 
 input {
-    padding-right: 30px; /* Espaço para o botão de limpeza */
-  }
-  
+    padding-right: 30px;
+}
+
+@media (max-width: 564px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

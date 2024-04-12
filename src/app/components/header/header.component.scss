@@ -27,7 +27,19 @@
     margin-left: 6px;
 }
 
+.btn-group {
+    margin: 16px;
+}
+
 .btn-active {
     background-color: var(--color-neutral-surface) !important;
     color: var(--color-core-foreground) !important;
+}
+
+@media (max-width: 564px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        height: 18vh;
+    }
 }

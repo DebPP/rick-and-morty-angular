@@ -7,6 +7,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 0 0 166px;
 
     img {
         border-top-right-radius: 8px !important;
@@ -25,7 +26,6 @@
 
 .character:hover {
     transform: scale(1.1);
-
 }
 
 .favorite {
@@ -37,14 +37,15 @@
     }
 }
 
-.characters-container {
-    justify-content: start;
-    flex-wrap: wrap;
-    display: flex;
-    width: 720px;
-}
+
 
 .btn-active {
     background-color: var(--color-neutral-surface);
     border-bottom-right-radius: 100%;
 }
+
+// @media (max-width: 425px) {
+//     .characters-container {
+//       flex-direction: column;
+//     }
+//   }

@@ -1,7 +1,7 @@
 <div class="container pb-3">
     <app-search-bar (resultSeach)="onChangeSearch($event)"></app-search-bar>
 
-    <div class="main-content d-flex ">
+    <div class="main-content d-flex justify-content-center">
         @if (!!characters && characters.length == 0) {
         <app-alerts [title]="'Nada foi encontrado'" [message]="'Tente realizar uma nova busca.'"></app-alerts>
 
