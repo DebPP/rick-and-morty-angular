@@ -5,7 +5,7 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 import { CookieService } from 'ngx-cookie-service';
 import { characterModel } from '../../models/character.model';
 import { CharacterService } from '../../service/character.service';
-import { map } from 'rxjs/operators';
+
 @Component({
 	selector: 'app-favorites',
 	standalone: true,

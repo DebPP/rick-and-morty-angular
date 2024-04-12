@@ -1,7 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-
-
 import { CommonModule } from '@angular/common';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { CharacterService } from '../../service/character.service';

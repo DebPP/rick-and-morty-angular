@@ -5,7 +5,6 @@ import { characterModel } from '../../models/character.model';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
-
 @Component({
 	selector: 'app-search-bar',
 	standalone: true,
@@ -16,6 +15,7 @@ import { filter } from 'rxjs';
 export class SearchBarComponent {
 	@Input() showSearch = true;
 	@Output() resultSeach: EventEmitter<Array<characterModel>> = new EventEmitter();
+
 	form: FormGroup;
 	searchResult: Array<characterModel>
 	showSearchPopUp = false;
@@ -79,7 +79,6 @@ export class SearchBarComponent {
 				this.showSearchPopUp = true;
 			}
 		)
-
 	}
 
 	onClearInput(): void {
